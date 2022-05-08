@@ -11,6 +11,11 @@ public class Point {
         this.y = y;
     }
 
+    public Point(Point p){
+        this.x = p.getX();
+        this.y = p.getY();
+    }
+
     public double getX() {
         return this.x;
     }
@@ -46,6 +51,19 @@ public class Point {
         p2.setY(this.y);
         this.x = x;
         this.y = y;
+    }
+
+    public Point sub(Point p2){
+        return new Point(x - p2.getX(), y - p2.getY());
+    }
+
+    public Point add(Point p2){
+        return new Point(x + p2.getX(), y + p2.getY());
+    }
+
+    public Point normalize(){
+        double len = Math.sqrt(x * x + y * y);
+        return new Point(x / len, y / len);
     }
 
     @Override

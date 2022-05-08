@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Graham {
-    private static short IS_GO_LEFT = 1;
+    private static short IS_GO_LEFT = 1;  
     private static short IS_GO_RIGHT = -1;
     private static short IS_GO_AHEAD = 0;
 
-    private static short cww(Point p1, Point p2, Point p3){
+    public static short cww(Point p1, Point p2, Point p3){
         double t, a1, a2, b1, b2;
         a1 = p2.getX() - p1.getX();
         b1 = p2.getY() - p1.getY();
@@ -39,10 +39,10 @@ public class Graham {
         return false;
     }
 
-    private static void quickSort(List<Point> listPoint, int l, int r){
+    public static void quickSort(List<Point> listPoint, int l, int r){
         int i = l, j = r;
-        Point x = listPoint.get((i + j) / 2);
-        while(i <= j){
+        Point x = new Point(listPoint.get((i + j) / 2));
+        do{
             while(Graham.isLower(listPoint, listPoint.get(i), x)) i++;
             while(Graham.isLower(listPoint, x, listPoint.get(j))) j--;
             if(i <= j){
@@ -50,12 +50,12 @@ public class Graham {
                 i++;
                 j--;
             }
-        }
+        }while(i < j);
         if(i < r) quickSort(listPoint, i, r);
         if(l < j) quickSort(listPoint, l, j);
     }
 
-    private static int getMinYPointIndex(List<Point> listPoint){
+    public static int getMinYPointIndex(List<Point> listPoint){
         int index = 0;
         for(int i = 1;i < listPoint.size();i++){
             Point p1 = listPoint.get(i);
@@ -105,7 +105,7 @@ public class Graham {
     }
 
     public static boolean isInConvex(GeoFence geoFence, Point point){
-        List<Point> convex = geoFence.getListConvexPoint();
+        List<Point> convex = geoFence.getListPoint();
         // check o hai bien cua covert
         Point lastPoint = convex.get(convex.size() - 1);
         Point firstPoint = convex.get(1);

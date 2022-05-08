@@ -1,5 +1,6 @@
 package com.Server.ServerGeoFence.service;
 
+import com.Server.ServerGeoFence.SupportClass.Edge;
 import com.Server.ServerGeoFence.SupportClass.Point;
 import com.Server.ServerGeoFence.dao.GeoFenceDao;
 import com.Server.ServerGeoFence.dao.VehicleDao;
@@ -21,6 +22,25 @@ public class GeoFenceService {
 
     public List<GeoFence> getAllGeoFence(){
         return this.geoFenceDao.getAllGeoFence();
+    }
+
+    public Boolean checkGeoFenceNumberPointIsLow(List<Point> points){
+        return points.size() < 3;
+    }
+
+    public Boolean checkGeoFenceIntercept(List<Point> points){
+        List<Edge> listEdge = Edge.createListEdgeByListPoint(points);
+        for (int i = 0;i < listEdge.size() - 1;i++){
+            for(int j = i + 2;j < listEdge.size();j++){
+                Edge e1 = listEdge.get(i);
+                Edge e2 = listEdge.get(j);
+                if(i == 0 && j == listEdge.size() - 1) continue;
+                if(e1.isIntersect(e2.getFirstPoint(), e2.getSecondPoint())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public GeoFence addGeoFence(List<Point> points){

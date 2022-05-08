@@ -1,6 +1,7 @@
 package com.Server.ServerGeoFence.service;
 
 import com.Server.ServerGeoFence.SupportClass.Point;
+import com.Server.ServerGeoFence.dao.FakeVehicleDataAccessService;
 import com.Server.ServerGeoFence.dao.VehicleDao;
 import com.Server.ServerGeoFence.model.GeoFence;
 import com.Server.ServerGeoFence.model.Vehicle;
