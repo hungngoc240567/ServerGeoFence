@@ -1,9 +1,11 @@
 package com.Server.ServerGeoFence;
+import Dataconnect.JavaConnect2SQL;
 import com.Server.ServerGeoFence.SupportClass.Edge;
 import com.Server.ServerGeoFence.SupportClass.Point;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,11 @@ public class ServerGeoFenceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ServerGeoFenceApplication.class, args);
+//		try {
+//			JavaConnect2SQL.getInstance().showGeoFence();
+//		} catch (SQLException e) {
+//			throw new RuntimeException(e);
+//		}
 	}
 }
 

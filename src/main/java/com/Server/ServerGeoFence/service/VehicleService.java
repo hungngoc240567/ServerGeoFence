@@ -64,6 +64,7 @@ public class VehicleService {
                 Vehicle vehicle = this.selectAllVehicle().get(indexUpdatePosition);
                 vehicle.setListIdGeoFenceIn(getGeoFenceService().getListIdGeoWithPointIn(point));
                 vehicle.setCurPoint(point);
+                vehicle.updateVehicleToDB();
                 return vehicle.getListIdGeoFenceIn();
             }
             System.out.println("Can not find vehicle with id" + id);

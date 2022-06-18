@@ -1,5 +1,6 @@
 package com.Server.ServerGeoFence.service;
 
+import Dataconnect.JavaConnect2SQL;
 import com.Server.ServerGeoFence.SupportClass.Edge;
 import com.Server.ServerGeoFence.SupportClass.Point;
 import com.Server.ServerGeoFence.dao.GeoFenceDao;
@@ -8,9 +9,8 @@ import com.Server.ServerGeoFence.model.GeoFence;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.sql.SQLException;
+import java.util.*;
 
 @Service
 public class GeoFenceService {
@@ -72,7 +72,23 @@ public class GeoFenceService {
         List<GeoFence> listGeoFence = this.geoFenceDao.getAllGeoFence();
         for(int i = 0;i < listGeoFence.size();i++){
             if(listGeoFence.get(i).getId().equals(id)){
+                GeoFence geoFence = listGeoFence.get(i);
+                Map<Integer, Point> indexPointMap = geoFence.listUpdatePoint(newGeoFence.getListPoint());
+                this.updateGeoFenceToDB(id.toString(), indexPointMap);
                 listGeoFence.set(i, newGeoFence);
+                return;
+            }
+        }
+    }
+
+    public void updateGeoFenceToDB(String idGeoFence, Map<Integer, Point> indexPointMap){
+        JavaConnect2SQL javaConnect2SQL = JavaConnect2SQL.getInstance();
+        for (Integer index : indexPointMap.keySet()){
+            Point point = indexPointMap.get(index);
+            try {
+                javaConnect2SQL.updatePointFromId(idGeoFence, index, point.getX(), point.getY());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         }
     }

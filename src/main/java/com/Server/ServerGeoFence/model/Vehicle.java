@@ -1,11 +1,14 @@
 package com.Server.ServerGeoFence.model;
 
+import Dataconnect.JavaConnect2SQL;
 import com.Server.ServerGeoFence.SupportClass.Point;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.Date;
 
 public class Vehicle {
     private final UUID id;
@@ -13,6 +16,7 @@ public class Vehicle {
     private Point curPoint;
     private double vx;
     private double vy;
+    private long lastTimeSave = 0;
     private List<UUID> listIdGeoFenceIn = new ArrayList<>();
 
     public Vehicle(UUID id, String type, Point curPoint, double vx, double vy) {
@@ -21,6 +25,7 @@ public class Vehicle {
         this.vy = vy;//
         this.type = type;
         this.curPoint = curPoint;
+        this.lastTimeSave = (new Date()).getTime();
     }
 
     public void setListIdGeoFenceIn(List<UUID> listIdGeoFenceIn) {
@@ -53,5 +58,30 @@ public class Vehicle {
 
     public double getVx() {
         return vx;
+    }
+
+    public long getLastTimeSave() {
+        return lastTimeSave;
+    }
+
+    public void saveVehicleToDB(){
+        JavaConnect2SQL javaConnect2SQL = JavaConnect2SQL.getInstance();
+        try {
+            javaConnect2SQL.insertB1ToDB(this);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateVehicleToDB(){
+        long curTime = (new Date()).getTime();
+        if (curTime - lastTimeSave >= 5000){
+            JavaConnect2SQL javaConnect2SQL = JavaConnect2SQL.getInstance();
+            try {
+                javaConnect2SQL.insertB2ToDB(this);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

@@ -1,13 +1,13 @@
 package com.Server.ServerGeoFence.model;
 
+import Dataconnect.JavaConnect2SQL;
 import com.Server.ServerGeoFence.SupportClass.Edge;
 import com.Server.ServerGeoFence.SupportClass.Graham;
 import com.Server.ServerGeoFence.SupportClass.Point;
 import com.Server.ServerGeoFence.TriTree.TriTree;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.sql.SQLException;
+import java.util.*;
 
 public class GeoFence {
     private UUID id; // hàng rào UID.
@@ -20,8 +20,7 @@ public class GeoFence {
         tree = new TriTree();
         this.setListPoint(listPoint);
         tree.build(listPoint);
-        System.out.println("them geo fence");
-        this.print();
+//        this.print();
     }
 
     public List<Point> getListPoint() {
@@ -58,5 +57,24 @@ public class GeoFence {
             System.out.println("x:" + this.listPoint.get(i).getX());
             System.out.println("y:" + this.listPoint.get(i).getY());
         }
+    }
+
+    public Map<Integer, Point> listUpdatePoint(List<Point> listPoint){
+        Map<Integer, Point> indexPointMap = new HashMap<>();
+        List<Point> myListPoint = this.getListPoint();
+        if(myListPoint.size() != listPoint.size()) return indexPointMap;
+        for(int i = 0;i < myListPoint.size();i++){
+            Point updatePoint = listPoint.get(i);
+            Point myPoint = myListPoint.get(i);
+            if(updatePoint.getX() != myPoint.getX() || updatePoint.getY() != myPoint.getY()){
+                indexPointMap.put(i, updatePoint);
+            }
+        }
+        return indexPointMap;
+    }
+
+    public void saveToDB() throws SQLException {
+        JavaConnect2SQL java2SQL = JavaConnect2SQL.getInstance();
+        java2SQL.insertGeoFenceToDB(this);
     }
 }

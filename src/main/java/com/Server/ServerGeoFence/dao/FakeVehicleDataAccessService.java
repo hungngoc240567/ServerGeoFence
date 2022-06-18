@@ -21,6 +21,7 @@ public class FakeVehicleDataAccessService implements VehicleDao{
         Vehicle vehicle = new Vehicle(id, type, point, vx, vy);
         vehicle.setListIdGeoFenceIn(listId);
         db.add(vehicle);
+        vehicle.saveVehicleToDB();
         return id;
     }
 
