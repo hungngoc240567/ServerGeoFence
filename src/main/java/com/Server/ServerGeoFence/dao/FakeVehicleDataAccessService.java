@@ -17,8 +17,8 @@ public class FakeVehicleDataAccessService implements VehicleDao{
     private static List<Vehicle> db = new ArrayList<>();
 
     @Override
-    public UUID insertVehicle(UUID id, String type, Point point, List<UUID> listId) {
-        Vehicle vehicle = new Vehicle(id, type, point);
+    public UUID insertVehicle(UUID id, String type, Point point, List<UUID> listId, double vx, double vy) {
+        Vehicle vehicle = new Vehicle(id, type, point, vx, vy);
         vehicle.setListIdGeoFenceIn(listId);
         db.add(vehicle);
         return id;
@@ -48,7 +48,7 @@ public class FakeVehicleDataAccessService implements VehicleDao{
         return this.getVehicleById(id).map(p -> {
             int indexOfDelete = db.indexOf(p);
             if(indexOfDelete >= 0){
-                Vehicle newVehicle = new Vehicle(id, vehicle.getType(), vehicle.getCurPoint());
+                Vehicle newVehicle = new Vehicle(id, vehicle.getType(), vehicle.getCurPoint(), vehicle.getVx(), vehicle.getVy());
                 db.set(indexOfDelete, newVehicle);
                 return 1;
             }

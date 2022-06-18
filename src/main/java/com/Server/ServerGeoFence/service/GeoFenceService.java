@@ -43,6 +43,16 @@ public class GeoFenceService {
         return false;
     }
 
+    public GeoFence getGeoFenceById(UUID id){
+        List<GeoFence> listGeoFence = this.geoFenceDao.getAllGeoFence();
+        for (GeoFence geoFence : listGeoFence){
+            if(geoFence.getId().equals(id)){
+                return geoFence;
+            }
+        }
+        return null;
+    }
+
     public GeoFence addGeoFence(List<Point> points){
         return this.geoFenceDao.addGeoFence(points);
     }
@@ -56,5 +66,18 @@ public class GeoFenceService {
                 listId.add(geoFence.getId());
         }
         return listId;
+    }
+
+    public void updateGeoFenceById(UUID id, GeoFence newGeoFence){
+        List<GeoFence> listGeoFence = this.geoFenceDao.getAllGeoFence();
+        for(int i = 0;i < listGeoFence.size();i++){
+            if(listGeoFence.get(i).getId().equals(id)){
+                listGeoFence.set(i, newGeoFence);
+            }
+        }
+    }
+
+    public void deleteGeoFenceById(UUID id){
+        this.geoFenceDao.deleteGeoFenceById(id);
     }
 }

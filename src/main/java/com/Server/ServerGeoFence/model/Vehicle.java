@@ -11,10 +11,14 @@ public class Vehicle {
     private final UUID id;
     private final String type;
     private Point curPoint;
+    private double vx;
+    private double vy;
     private List<UUID> listIdGeoFenceIn = new ArrayList<>();
 
-    public Vehicle(@JsonProperty("id") UUID id, @JsonProperty("type") String type, @JsonProperty("point") Point curPoint) {
+    public Vehicle(UUID id, String type, Point curPoint, double vx, double vy) {
         this.id = id;
+        this.vx = vx;//
+        this.vy = vy;//
         this.type = type;
         this.curPoint = curPoint;
     }
@@ -41,5 +45,13 @@ public class Vehicle {
 
     public List<UUID> getListIdGeoFenceIn() {
         return listIdGeoFenceIn;
+    }
+
+    public double getVy() {
+        return vy;
+    }
+
+    public double getVx() {
+        return vx;
     }
 }

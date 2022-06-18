@@ -10,39 +10,18 @@ import java.util.List;
 import java.util.UUID;
 
 public class GeoFence {
-    private UUID id;
-    private List<Point> listPoint;
-    private static final boolean IS_TEST = false;
-    private TriTree tree;
+    private UUID id; // hàng rào UID.
+    private List<Point> listPoint; // Các điểm của hàng rào (double x, double y).
+    private static final boolean IS_TEST = false; //
+    private TriTree tree; //
 
     public GeoFence(UUID id, List<Point> listPoint) {
         this.id = id;
         tree = new TriTree();
         this.setListPoint(listPoint);
         tree.build(listPoint);
-//        if(GeoFence.IS_TEST)
-//            this.testListConvex();
-    }
-
-    private void testListConvex(){
-        // test field
-//        List<Point> lp = new ArrayList<>();
-//        lp.add(new Point(1, 3));
-//        lp.add(new Point(4, 4));
-//        lp.add(new Point(3, 7));
-//        lp.add(new Point(3, 1));
-//        lp.add(new Point(6, 5));
-//        lp.add(new Point(4, 6));
-//        lp.add(new Point(4, 2));
-//        lp.add(new Point(3, 4));
-//        lp.add(new Point(2, 4));
-//        lp.add(new Point(5, 3));
-//        lp.add(new Point(2, 5));
-//        lp.add(new Point(1, 2));
-//        for(int i = 0;i < lp.size();i++){
-//            boolean isIn = this.isInThis(lp.get(i));
-//            System.out.println(lp.get(i).toString() + " " + "is in: " + isIn);
-//        }
+        System.out.println("them geo fence");
+        this.print();
     }
 
     public List<Point> getListPoint() {
@@ -71,5 +50,13 @@ public class GeoFence {
 
     public Point getOriginPoint(){
         return this.tree.getOriginPoint();
+    }
+
+    public void print(){
+        System.out.println("id: " + this.getId().toString());
+        for(int i = 0;i < this.listPoint.size();i++){
+            System.out.println("x:" + this.listPoint.get(i).getX());
+            System.out.println("y:" + this.listPoint.get(i).getY());
+        }
     }
 }

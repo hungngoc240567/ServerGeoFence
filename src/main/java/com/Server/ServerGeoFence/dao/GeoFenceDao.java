@@ -13,4 +13,5 @@ public interface GeoFenceDao {
         return addGeoFence(id, points);
     }
     public List<GeoFence> getAllGeoFence();
+    public void deleteGeoFenceById(UUID id);
 }

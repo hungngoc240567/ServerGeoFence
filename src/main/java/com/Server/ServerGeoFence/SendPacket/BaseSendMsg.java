@@ -12,4 +12,8 @@ public class BaseSendMsg {
     public byte getErrCode() {
         return errCode;
     }
+
+    public void setErrCode(byte errCode) {
+        this.errCode = errCode;
+    }
 }

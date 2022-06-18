@@ -1,4 +1,5 @@
 package com.Server.ServerGeoFence.api;
+import com.Server.ServerGeoFence.ReceivedPacket.ReceivedAddVehicle;
 import com.Server.ServerGeoFence.SupportClass.UpdateVehiclePosition;
 import com.Server.ServerGeoFence.model.Vehicle;
 import com.Server.ServerGeoFence.service.VehicleService;
@@ -20,7 +21,8 @@ public class VehicleController {
     }
 
     @PostMapping
-    public UUID addVehicle(@RequestBody Vehicle vehicle){
+    public UUID addVehicle(@RequestBody ReceivedAddVehicle receivedAddVehicle){
+        Vehicle vehicle = new Vehicle(null, receivedAddVehicle.getType(), receivedAddVehicle.getVehiclePoint(),receivedAddVehicle.getVx(), receivedAddVehicle.getVy());
         return this.vehicleService.addVehicle(vehicle);
     }
 
