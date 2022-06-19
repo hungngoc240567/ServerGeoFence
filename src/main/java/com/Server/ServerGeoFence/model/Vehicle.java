@@ -67,7 +67,7 @@ public class Vehicle {
     public void saveVehicleToDB(){
         JavaConnect2SQL javaConnect2SQL = JavaConnect2SQL.getInstance();
         try {
-            javaConnect2SQL.insertB1ToDB(this);
+            javaConnect2SQL.insertVehicleToDB(this);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -78,7 +78,7 @@ public class Vehicle {
         if (curTime - lastTimeSave >= 5000){
             JavaConnect2SQL javaConnect2SQL = JavaConnect2SQL.getInstance();
             try {
-                javaConnect2SQL.insertB2ToDB(this);
+                javaConnect2SQL.updateVehiclePointToDB(this);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

@@ -125,20 +125,27 @@ public class JavaConnect2SQL {
 //    }
 
     public void insertGeoFenceToDB(GeoFence geoFence) throws SQLException {
-        String ins_area_by_DataGenerator = "INSERT INTO Area (ID_Area, index_point, Latitude, Longitude) VALUES (?,?,?,?)";
-        PreparedStatement pst = conn.prepareStatement(ins_area_by_DataGenerator);
+//        String ins_area_by_DataGenerator = "INSERT INTO Area (ID_Area, index_point, Latitude, Longitude) VALUES (?,?,?,?)";
+        // insert geo fence into geo fence table (id, name:#color)
+        String ins_geo_fence_by_DataGenerator = "INSERT INTO Geofence (ID_Geo, NAME_Geo) VALUES (?,?)";
+        PreparedStatement pst = conn.prepareStatement(ins_geo_fence_by_DataGenerator);
         List<Point> listPoint = geoFence.getListPoint();
+        pst.setString(1, geoFence.getId().toString());
+        pst.setString(2, geoFence.getId().toString());
+        pst.execute();
+        String ins_geo_fence_point_by_DataGenerator = "INSERT INTO Point (ID_Point, Latitude, Longitude, ID_Geo) VALUES (?,?,?,?)";
+        pst = conn.prepareStatement(ins_geo_fence_point_by_DataGenerator);
         for (int i = 0;i < listPoint.size();i++){
             String id = geoFence.getId().toString();
             Point point = listPoint.get(i);
-            pst.setString(1,id);
-            pst.setInt(2, i);
-            pst.setDouble(3,point.getX());
-            pst.setDouble(4,point.getY());
-
+            pst.setString(1,geoFence.getId().toString() + "_" + i);
+            pst.setDouble(2,point.getX());
+            pst.setDouble(3,point.getY());
+            pst.setString(4, geoFence.getId().toString());
             pst.execute();
         }
     }
+
 
     public void updatePointFromId(String id, Integer index, double x, double y) throws SQLException {
         System.out.println("Update geo fence by id and index point " +id +" "+index);
@@ -189,7 +196,7 @@ public class JavaConnect2SQL {
     }
 
     public void insertVehicleToDB(Vehicle vehicle) throws SQLException {
-        String query = "INSERT INTO Area (ID_Vehicle, Latitude, Longitude, Vx, Vy, V_current_time, ID_Area) VALUES (?,?,?,?,?,?,?)";
+        String query = "INSERT INTO Vehicle (ID_Vehicle, Latitude, Longitude, Vx, Vy) VALUES (?,?,?,?,?)";
         PreparedStatement pst = conn.prepareStatement(query);
         pst.setString(1,vehicle.getId().toString());
         pst.setDouble(2,vehicle.getCurPoint().getX());
@@ -199,19 +206,8 @@ public class JavaConnect2SQL {
         pst.execute();
     }
 
-    public void insertB1ToDB(Vehicle vehicle) throws SQLException {
-        String query = "INSERT INTO B1 (ID, Latitude, Longitude, Vx, Vy) VALUES (?,?,?,?,?)";
-        PreparedStatement pst = conn.prepareStatement(query);
-        pst.setString(1,vehicle.getId().toString());
-        pst.setDouble(2,vehicle.getCurPoint().getX());
-        pst.setDouble(3,vehicle.getCurPoint().getY());
-        pst.setDouble(4,vehicle.getVx());
-        pst.setDouble(5,vehicle.getVy());
-        pst.execute();
-    }
-
-    public void insertB2ToDB(Vehicle vehicle) throws SQLException {
-        String query = "INSERT INTO B2 (Vehicle_ID, Geofence_ID, V_Date) VALUES (?,?,?)";
+    public void updateVehiclePointToDB(Vehicle vehicle) throws SQLException {
+        String query = "INSERT INTO Vehicle_in_Geo (Vehicle_ID, Geofence_ID, V_Date) VALUES (?,?,?)";
         PreparedStatement pst = conn.prepareStatement(query);
         List<UUID> listGeoFenceIn = vehicle.getListIdGeoFenceIn();
         for(int i = 0;i < listGeoFenceIn.size();i++){

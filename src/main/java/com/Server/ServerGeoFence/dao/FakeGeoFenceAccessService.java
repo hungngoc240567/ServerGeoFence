@@ -52,7 +52,8 @@ public class FakeGeoFenceAccessService implements GeoFenceDao{
     @Override
     public synchronized List<GeoFence> getAllGeoFence() {
         if(db == null){
-            db = this.parseListGeoFenceFromDB();
+//            db = this.parseListGeoFenceFromDB();
+            db = new ArrayList<>();
         }
         System.out.println(db);
         return db;
