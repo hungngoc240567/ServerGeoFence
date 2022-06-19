@@ -194,6 +194,7 @@ public class JavaConnect2SQL {
         pst.execute();
     }
 
+
     public void deleteGeofenceFromDB(String id_geo) throws SQLException {
         System.out.println("Delete Geofence from DB");
         String query1 = "DELETE FROM Point WHERE ID_Geo = ?";
@@ -233,6 +234,20 @@ public class JavaConnect2SQL {
             }
         }
         return geoFenceMap;
+    }
+
+    public void loadAllVehicle() throws SQLException {
+        String query = "select * from Vehicle";
+        PreparedStatement pst = conn.prepareStatement(query);
+        ResultSet rs = pst.executeQuery();
+
+        while(rs.next()){
+            String ID_Vehicle = rs.getString("ID_Vehicle");
+            double latitude = rs.getDouble("Latitude");
+            double longitude = rs.getDouble("Longitude");
+            double Vx = rs.getDouble("Vx");
+            double Vy = rs.getDouble("Vy");
+        }
     }
 
     public void insertVehicleToDB(Vehicle vehicle) throws SQLException {
