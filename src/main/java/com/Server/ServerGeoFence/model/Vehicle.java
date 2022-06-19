@@ -67,7 +67,7 @@ public class Vehicle {
     public void saveVehicleToDB(){
         JavaConnect2SQL javaConnect2SQL = JavaConnect2SQL.getInstance();
         try {
-            javaConnect2SQL.insertVehicle(this);
+            javaConnect2SQL.insertVehicleToDB(this);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -79,6 +79,7 @@ public class Vehicle {
             JavaConnect2SQL javaConnect2SQL = JavaConnect2SQL.getInstance();
             try {
                 javaConnect2SQL.insertVehicle_in_Geo(this);
+                javaConnect2SQL.updateVehicle(this.getId().toString(), this.getCurPoint().getX(), this.getCurPoint().getY());
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
