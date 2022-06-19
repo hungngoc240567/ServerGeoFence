@@ -236,18 +236,21 @@ public class JavaConnect2SQL {
         return geoFenceMap;
     }
 
-    public void loadAllVehicle() throws SQLException {
+    public List<Vehicle> loadAllVehicle() throws SQLException {
         String query = "select * from Vehicle";
         PreparedStatement pst = conn.prepareStatement(query);
         ResultSet rs = pst.executeQuery();
-
+        List<Vehicle> vehicles = new ArrayList<>();
         while(rs.next()){
             String ID_Vehicle = rs.getString("ID_Vehicle");
             double latitude = rs.getDouble("Latitude");
             double longitude = rs.getDouble("Longitude");
             double Vx = rs.getDouble("Vx");
             double Vy = rs.getDouble("Vy");
+            Vehicle vehicle = new Vehicle(UUID.fromString(ID_Vehicle), "", new Point(latitude, longitude), Vx, Vy);
+            vehicles.add(vehicle);
         }
+        return vehicles;
     }
 
     public void insertVehicleToDB(Vehicle vehicle) throws SQLException {

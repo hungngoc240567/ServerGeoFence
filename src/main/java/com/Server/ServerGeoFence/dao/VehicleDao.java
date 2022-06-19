@@ -23,4 +23,6 @@ public interface VehicleDao {
     int deleteVehicleById(UUID id);
 
     int updateVehicleById(UUID id, Vehicle vehicle);
+
+
 }
