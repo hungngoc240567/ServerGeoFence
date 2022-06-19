@@ -162,14 +162,29 @@ public class JavaConnect2SQL {
     }
 
     public void insertVehicle_in_Geo (Vehicle vehicle) throws SQLException {
-        String query = "INSERT INTO Vehicle_in_Geo(ID_Geo, ID_Vehicle, Time_in) VALUES (?,?,?)";
+        String query = "INSERT INTO Vehicle_in_Geo(ID_Geo, ID_Vehicle, Time_in, index) VALUES (?,?,?)";
         PreparedStatement pst = conn.prepareStatement(query);
         List<UUID> listIdGeoFenceIn = vehicle.getListIdGeoFenceIn();
         for(int i = 0;i < listIdGeoFenceIn.size();i++){
             pst.setString(1, listIdGeoFenceIn.get(i).toString());
             pst.setString(2, vehicle.getId().toString());
             pst.setDouble(3, vehicle.getLastTimeSave());
+            pst.setInt(4,);
             pst.execute();
+
+            //////////////////////////////////
+//            CREATE TABLE Vehicle_in_Geo
+//                    (
+//                            ID INT IDENTITY(1,1),
+//                            ID_Geo VARCHAR(100),
+//                            ID_Vehicle VARCHAR(100),
+//                            Time_in BIGINT,
+//                            index_Vehicle INT,
+//                            constraint pk_Vehicle_in_Geo primary key(ID),
+//                            constraint fk_Vehicle_in_Geo1 foreign key(ID_Geo) references Geofence(ID_Geo),
+//                            constraint fk_Vehicle_in_Geo2 foreign key(ID_Vehicle) references Vehicle(ID_Vehicle)
+//                    )
+
         }
     }
 
