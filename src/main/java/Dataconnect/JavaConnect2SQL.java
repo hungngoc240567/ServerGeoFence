@@ -10,6 +10,10 @@ import java.util.*;
 public class JavaConnect2SQL {
     public  static JavaConnect2SQL instance = null;
     //url = "jdbc:sqlserver://" +serverName + ":1433;DatabaseName=" + dbName + ";encrypt=true;trustServerCertificate=true;
+//    private static String url = "jdbc:sqlserver://localhost:1433;DatabaseName=GEOFENCE;encrypt=true;trustServerCertificate=true";
+//    private static String user = "sa";
+//    private static String password = "Password.1";
+    //Long
     private static String url = "jdbc:sqlserver://DESKTOP-AMFKU1O:1433;DatabaseName=GEOFENCE;encrypt=true;trustServerCertificate=true";
     private static String user = "sa";
     private static String password = "1234";
@@ -146,24 +150,27 @@ public class JavaConnect2SQL {
         }
     }
 
-    public void insertVehicle() throws SQLException {
+    public void insertVehicle(Vehicle vehicle) throws SQLException {
         String query = "INSERT INTO Vehicle VALUES(?,?,?,?,?)";
         PreparedStatement pst = conn.prepareStatement(query);
-        pst.setString(1,);
-        pst.setDouble(2,);
-        pst.setDouble(3,);
-        pst.setDouble(4,);
-        pst.setDouble(5,);
+        pst.setString(1, vehicle.getId().toString());
+        pst.setDouble(2, vehicle.getCurPoint().getX());
+        pst.setDouble(3, vehicle.getCurPoint().getY());
+        pst.setDouble(4, vehicle.getVx());
+        pst.setDouble(5, vehicle.getVy());
         pst.execute();
     }
 
-    public void insertVehicle_in_Geo(){
+    public void insertVehicle_in_Geo (Vehicle vehicle) throws SQLException {
         String query = "INSERT INTO Vehicle_in_Geo(ID_Geo, ID_Vehicle, Time_in) VALUES (?,?,?)";
         PreparedStatement pst = conn.prepareStatement(query);
-        pst.setString(1,);
-        pst.setString(2,);
-        pst.setDouble(3,);
-        pst.execute();
+        List<UUID> listIdGeoFenceIn = vehicle.getListIdGeoFenceIn();
+        for(int i = 0;i < listIdGeoFenceIn.size();i++){
+            pst.setString(1, listIdGeoFenceIn.get(i).toString());
+            pst.setString(2, vehicle.getId().toString());
+            pst.setDouble(3, vehicle.getLastTimeSave());
+            pst.execute();
+        }
     }
 
     public void updatePointFromId(String id, Integer index, double x, double y) throws SQLException {
