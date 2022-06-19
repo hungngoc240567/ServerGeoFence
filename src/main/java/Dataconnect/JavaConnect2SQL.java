@@ -184,6 +184,16 @@ public class JavaConnect2SQL {
         pst.execute();
     }
 
+    public void updateVehicle(String id_vehicle, double latitude, double longitude) throws SQLException {
+        System.out.println("Update vehicle by id");
+        String query = "UPDATE VEHICLE SET Latitude = ?, Longitude = ? WHERE ID_Vehicle = ?";
+        PreparedStatement pst = conn.prepareStatement(query);
+        pst.setDouble(1,latitude);
+        pst.setDouble(2,longitude);
+        pst.setString(3,id_vehicle);
+        pst.execute();
+    }
+
     public void deleteGeofenceFromDB(String id_geo) throws SQLException {
         System.out.println("Delete Geofence from DB");
         String query1 = "DELETE FROM Point WHERE ID_Geo = ?";
