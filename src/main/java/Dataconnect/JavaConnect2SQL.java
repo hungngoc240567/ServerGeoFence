@@ -146,10 +146,29 @@ public class JavaConnect2SQL {
         }
     }
 
+    public void insertVehicle() throws SQLException {
+        String query = "INSERT INTO Vehicle VALUES(?,?,?,?,?)";
+        PreparedStatement pst = conn.prepareStatement(query);
+        pst.setString(1,);
+        pst.setDouble(2,);
+        pst.setDouble(3,);
+        pst.setDouble(4,);
+        pst.setDouble(5,);
+        pst.execute();
+    }
+
+    public void insertVehicle_in_Geo(){
+        String query = "INSERT INTO Vehicle_in_Geo(ID_Geo, ID_Vehicle, Time_in) VALUES (?,?,?)";
+        PreparedStatement pst = conn.prepareStatement(query);
+        pst.setString(1,);
+        pst.setString(2,);
+        pst.setDouble(3,);
+        pst.execute();
+    }
 
     public void updatePointFromId(String id, Integer index, double x, double y) throws SQLException {
         System.out.println("Update geo fence by id and index point " +id +" "+index);
-        String query = "UPDATE Area SET Latitude = ?, Longitude = ? WHERE ID_Area = ? AND index_point = ?";
+        String query = "UPDATE Geofence SET Latitude = ?, Longitude = ? WHERE ID_Area = ? AND index_point = ?";
         PreparedStatement pst = conn.prepareStatement(query);
         pst.setDouble(1,x);
         pst.setDouble(2,y);
