@@ -192,6 +192,22 @@ public class JavaConnect2SQL {
         pst.execute();
     }
 
+    public void deleteGeofenceFromDB(String id_geo) throws SQLException {
+        System.out.println("Delete Geofence from DB");
+        String query1 = "DELETE FROM Point WHERE ID_Geo = ?";
+        String query2 = "DELETE FROM Vehicle_in_Geo WHERE ID_Geo = ?";
+        String query3 = "DELETE FROM Geofence WHERE ID_Geo = ?";
+        PreparedStatement pst1 = conn.prepareStatement(query1);
+        pst1.setString(1,id_geo);
+        pst1.execute();
+        PreparedStatement pst2 = conn.prepareStatement(query2);
+        pst2.setString(1,id_geo);
+        pst2.execute();
+        PreparedStatement pst3 = conn.prepareStatement(query3);
+        pst3.setString(1,id_geo);
+        pst3.execute();
+    }
+
     public Map<String, List<Point>> loadAllPointOfGeofenceFromDB() throws SQLException {
         String query = "SELECT P.ID_Point, G.ID_Geo, P.Latitude, P.Longitude FROM Geofence AS G INNER JOIN Point AS P ON P.ID_Geo = G.ID_Geo";
         PreparedStatement pst = conn.prepareStatement(query);
