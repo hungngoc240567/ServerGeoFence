@@ -9,14 +9,14 @@ import java.util.*;
 
 public class JavaConnect2SQL {
     public  static JavaConnect2SQL instance = null;
-    //url = "jdbc:sqlserver://" +serverName + ":1433;DatabaseName=" + dbName + ";encrypt=true;trustServerCertificate=true;
-//    private static String url = "jdbc:sqlserver://localhost:1433;DatabaseName=GEOFENCE;encrypt=true;trustServerCertificate=true";
-//    private static String user = "sa";
-//    private static String password = "Password.1";
-    //Long
-    private static String url = "jdbc:sqlserver://DESKTOP-AMFKU1O:1433;DatabaseName=GEOFENCE;encrypt=true;trustServerCertificate=true";
+//    url = "jdbc:sqlserver://" +serverName + ":1433;DatabaseName=" + dbName + ";encrypt=true;trustServerCertificate=true;
+    private static String url = "jdbc:sqlserver://localhost:1433;DatabaseName=GEOFENCE;encrypt=true;trustServerCertificate=true";
     private static String user = "sa";
-    private static String password = "1234";
+    private static String password = "Password.1";
+    //Long
+//    private static String url = "jdbc:sqlserver://DESKTOP-AMFKU1O:1433;DatabaseName=GEOFENCE;encrypt=true;trustServerCertificate=true";
+//    private static String user = "sa";
+//    private static String password = "1234";
 
     private Connection conn = null;
 
@@ -181,14 +181,6 @@ public class JavaConnect2SQL {
         pst.setDouble(2,longtitude);
         pst.setString(3,id_geo);
         pst.setString(4,id_point);
-        pst.execute();
-    }
-
-    public void deleteGeofenceFromDB(String id) throws SQLException {
-        System.out.println("Delete Geofence from DB");
-        String query = "DELETE FROM Area WHERE ID_Area = ?";
-        PreparedStatement pst = conn.prepareStatement(query);
-        pst.setString(1,id);
         pst.execute();
     }
 
