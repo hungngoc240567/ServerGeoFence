@@ -86,7 +86,7 @@ public class GeoFenceService {
         for (Integer index : indexPointMap.keySet()){
             Point point = indexPointMap.get(index);
             try {
-                javaConnect2SQL.updatePointFromId(idGeoFence, index, point.getX(), point.getY());
+                javaConnect2SQL.updatePointFromId(idGeoFence, idGeoFence + "_" + index, point.getX(), point.getY());
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
