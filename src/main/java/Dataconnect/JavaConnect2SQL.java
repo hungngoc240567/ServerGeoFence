@@ -173,14 +173,14 @@ public class JavaConnect2SQL {
         }
     }
 
-    public void updatePointFromId(String id, Integer index, double x, double y) throws SQLException {
-        System.out.println("Update geo fence by id and index point " +id +" "+index);
-        String query = "UPDATE Geofence SET Latitude = ?, Longitude = ? WHERE ID_Area = ? AND index_point = ?";
+    public void updatePointFromId(String id_geo, String id_point, double latitude, double longtitude) throws SQLException {
+        System.out.println("Update geo fence by id and index point " +id_geo +" "+id_point);
+        String query = "UPDATE Point SET Latitude = ?, Longitude = ? WHERE ID_Geo = ? AND ID_Point = ?";
         PreparedStatement pst = conn.prepareStatement(query);
-        pst.setDouble(1,x);
-        pst.setDouble(2,y);
-        pst.setString(3,id);
-        pst.setInt(4,index);
+        pst.setDouble(1,latitude);
+        pst.setDouble(2,longtitude);
+        pst.setString(3,id_geo);
+        pst.setString(4,id_point);
         pst.execute();
     }
 
