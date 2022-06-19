@@ -192,48 +192,28 @@ public class JavaConnect2SQL {
         pst.execute();
     }
 
-    public void loadAllPointOfGeofenceFromDB() throws SQLException {
+    public Map<String, List<Point>> loadAllPointOfGeofenceFromDB() throws SQLException {
         String query = "SELECT P.ID_Point, G.ID_Geo, P.Latitude, P.Longitude FROM Geofence AS G INNER JOIN Point AS P ON P.ID_Geo = G.ID_Geo";
         PreparedStatement pst = conn.prepareStatement(query);
         ResultSet rs = pst.executeQuery();
 
+        Map<String, List<Point>> geoFenceMap = new HashMap<>();
         while (rs.next()){
             System.out.println("Get point from DB");
             String id_point = rs.getString("ID_Point");
             String id_geo = rs.getString("ID_Geo");
             double latitude = rs.getDouble("Latitude");
             double longitude = rs.getDouble("Longitude");
-        }
-
-    }
-
-    public Map<String, List<Point>> loadAllGeoFenceFromDB() throws SQLException {
-        //report
-        String query = "SELECT * FROM Area";
-
-        //run query
-        //ResultSet rs = statement.executeQuery(query);
-        PreparedStatement pst = conn.prepareStatement(query);
-        ResultSet rs = pst.executeQuery();
-
-        Map<String, List<Point>> geoFenceMap = new HashMap<>();
-        //print result
-        while (rs.next()){
-            System.out.println("Get point from db");
-            String id = rs.getString("ID_Area");
-            double x = rs.getDouble("Latitude");
-            double y = rs.getDouble("Longitude");
-            if(!geoFenceMap.containsKey(id)){
+            if(!geoFenceMap.containsKey(id_geo)){
                 List<Point> listPoint = new ArrayList<>();
-                listPoint.add(new Point(x, y));
-                geoFenceMap.put(id, listPoint);
+                listPoint.add(new Point(latitude, longitude));
+                geoFenceMap.put(id_geo, listPoint);
             }
             else{
-                List<Point> listPoint = geoFenceMap.get(id);
-                listPoint.add(new Point(x, y));
+                List<Point> listPoint = geoFenceMap.get(id_geo);
+                listPoint.add(new Point(latitude, longitude));
             }
         }
-
         return geoFenceMap;
     }
 

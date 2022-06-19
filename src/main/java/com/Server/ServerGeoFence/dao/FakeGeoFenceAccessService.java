@@ -52,8 +52,7 @@ public class FakeGeoFenceAccessService implements GeoFenceDao{
     @Override
     public synchronized List<GeoFence> getAllGeoFence() {
         if(db == null){
-//            db = this.parseListGeoFenceFromDB();
-            db = new ArrayList<>();
+            db = this.parseListGeoFenceFromDB();
         }
         System.out.println(db);
         return db;
@@ -63,7 +62,7 @@ public class FakeGeoFenceAccessService implements GeoFenceDao{
         JavaConnect2SQL javaConnect2SQL = JavaConnect2SQL.getInstance();
         List<GeoFence> listGeoFence = new ArrayList<>();
         try {
-            Map<String, List<Point>> geoFenceMap = javaConnect2SQL.loadAllGeoFenceFromDB();
+            Map<String, List<Point>> geoFenceMap = javaConnect2SQL.loadAllPointOfGeofenceFromDB();
             for(String id : geoFenceMap.keySet()){
                 List<Point> listPoint = geoFenceMap.get(id);
                 GeoFence geoFence = new GeoFence(UUID.fromString(id), listPoint);
