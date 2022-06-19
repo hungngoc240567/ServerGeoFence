@@ -191,6 +191,22 @@ public class JavaConnect2SQL {
         pst.setString(1,id);
         pst.execute();
     }
+
+    public void loadAllPointOfGeofenceFromDB() throws SQLException {
+        String query = "SELECT P.ID_Point, G.ID_Geo, P.Latitude, P.Longitude FROM Geofence AS G INNER JOIN Point AS P ON P.ID_Geo = G.ID_Geo";
+        PreparedStatement pst = conn.prepareStatement(query);
+        ResultSet rs = pst.executeQuery();
+
+        while (rs.next()){
+            System.out.println("Get point from DB");
+            String id_point = rs.getString("ID_Point");
+            String id_geo = rs.getString("ID_Geo");
+            double latitude = rs.getDouble("Latitude");
+            double longitude = rs.getDouble("Longitude");
+        }
+
+    }
+
     public Map<String, List<Point>> loadAllGeoFenceFromDB() throws SQLException {
         //report
         String query = "SELECT * FROM Area";
