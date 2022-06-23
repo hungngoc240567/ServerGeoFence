@@ -4,6 +4,8 @@ import Dataconnect.JavaConnect2SQL;
 import com.Server.ServerGeoFence.SupportClass.Edge;
 import com.Server.ServerGeoFence.SupportClass.Graham;
 import com.Server.ServerGeoFence.SupportClass.Point;
+import com.Server.ServerGeoFence.TestClass.GeoFencePerformanceTest;
+import com.Server.ServerGeoFence.TestClass.ReportTestAlgorithm;
 import com.Server.ServerGeoFence.TriTree.TriTree;
 
 import java.sql.SQLException;
@@ -76,5 +78,29 @@ public class GeoFence {
     public void saveToDB() throws SQLException {
         JavaConnect2SQL java2SQL = JavaConnect2SQL.getInstance();
         java2SQL.insertGeoFenceToDB(this);
+    }
+
+    public static ReportTestAlgorithm testPerformance(int[] listNumberVertical, List<List<Point>> listPolygon, List<Point> pointsTest){
+        ReportTestAlgorithm table = new ReportTestAlgorithm();
+        Map<Integer, Long> tablePreprocessing = table.getTablePreprocessing();
+        Map<Integer, Long> tableProcessing = table.getTableProcess();
+        for(int i = 0;i < listNumberVertical.length;i++){
+            List<Point> polygon = listPolygon.get(i);
+            // estimate preprocessing
+            int numberVertical = listNumberVertical[i];
+            long curTime = (new Date()).getTime();
+            GeoFence geoFence = new GeoFence(UUID.randomUUID(), polygon);
+            long preprocessTime = (new Date()).getTime() - curTime;
+            tablePreprocessing.put(numberVertical, preprocessTime);
+            // estimate processTime
+            curTime = (new Date()).getTime();
+            for(int j = 0;j < pointsTest.size();j++){
+                Point point = pointsTest.get(j);
+                geoFence.isInThis(point);
+            }
+            long timeProcess = (new Date()).getTime() - curTime;
+            tableProcessing.put(numberVertical, timeProcess);
+        }
+        return table;
     }
 }

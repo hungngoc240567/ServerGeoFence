@@ -162,19 +162,18 @@ public class JavaConnect2SQL {
     }
 
     public void insertVehicle_in_Geo (Vehicle vehicle) throws SQLException {
-        String query = "INSERT INTO Vehicle_in_Geo(ID_Geo, ID_Vehicle, Time_in) VALUES (?,?,?)";
-        PreparedStatement pst = conn.prepareStatement(query);
-        List<UUID> listIdGeoFenceIn = vehicle.getListIdGeoFenceIn();
-        for(int i = 0;i < listIdGeoFenceIn.size();i++){
-            pst.setString(1, listIdGeoFenceIn.get(i).toString());
-            pst.setString(2, vehicle.getId().toString());
-            pst.setDouble(3, vehicle.getLastTimeSave());
-            pst.execute();
-        }
+//        String query = "INSERT INTO Vehicle_in_Geo(ID_Geo, ID_Vehicle, Time_in) VALUES (?,?,?)";
+//        PreparedStatement pst = conn.prepareStatement(query);
+//        List<UUID> listIdGeoFenceIn = vehicle.getListIdGeoFenceIn();
+//        for(int i = 0;i < listIdGeoFenceIn.size();i++){
+//            pst.setString(1, listIdGeoFenceIn.get(i).toString());
+//            pst.setString(2, vehicle.getId().toString());
+//            pst.setDouble(3, vehicle.getLastTimeSave());
+//            pst.execute();
+//        }
     }
 
     public void updatePointFromId(String id_geo, String id_point, double latitude, double longtitude) throws SQLException {
-        System.out.println("Update geo fence by id and index point " +id_geo +" "+id_point);
         String query = "UPDATE Point SET Latitude = ?, Longitude = ? WHERE ID_Geo = ? AND ID_Point = ?";
         PreparedStatement pst = conn.prepareStatement(query);
         pst.setDouble(1,latitude);
@@ -185,7 +184,6 @@ public class JavaConnect2SQL {
     }
 
     public void updateVehicle(String id_vehicle, double latitude, double longitude) throws SQLException {
-        System.out.println("Update vehicle by id");
         String query = "UPDATE VEHICLE SET Latitude = ?, Longitude = ? WHERE ID_Vehicle = ?";
         PreparedStatement pst = conn.prepareStatement(query);
         pst.setDouble(1,latitude);
@@ -196,7 +194,6 @@ public class JavaConnect2SQL {
 
 
     public void deleteGeofenceFromDB(String id_geo) throws SQLException {
-        System.out.println("Delete Geofence from DB");
         String query1 = "DELETE FROM Point WHERE ID_Geo = ?";
         String query2 = "DELETE FROM Vehicle_in_Geo WHERE ID_Geo = ?";
         String query3 = "DELETE FROM Geofence WHERE ID_Geo = ?";
@@ -218,7 +215,6 @@ public class JavaConnect2SQL {
 
         Map<String, List<Point>> geoFenceMap = new HashMap<>();
         while (rs.next()){
-            System.out.println("Get point from DB");
             String id_point = rs.getString("ID_Point");
             String id_geo = rs.getString("ID_Geo");
             double latitude = rs.getDouble("Latitude");

@@ -1,10 +1,13 @@
 package com.Server.ServerGeoFence.SupportClass;
 
+import com.Server.ServerGeoFence.TestClass.ReportTestAlgorithm;
 import com.Server.ServerGeoFence.Utils.Constant;
 import com.Server.ServerGeoFence.model.GeoFence;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class Graham {
     private static short IS_GO_LEFT = 1;  
@@ -104,8 +107,7 @@ public class Graham {
         return listRetConvex;
     }
 
-    public static boolean isInConvex(GeoFence geoFence, Point point){
-        List<Point> convex = geoFence.getListPoint();
+    public static boolean isInConvex(List<Point> convex, Point point){
         // check o hai bien cua covert
         Point lastPoint = convex.get(convex.size() - 1);
         Point firstPoint = convex.get(1);
@@ -126,5 +128,28 @@ public class Graham {
             return true;
         else
             return false;
+    }
+
+    public static ReportTestAlgorithm testPerformance(int[] listNumberVertical, List<List<Point>> listPolygon, List<Point> pointsTest){
+        ReportTestAlgorithm table = new ReportTestAlgorithm();
+        Map<Integer, Long> tablePreprocessing = table.getTablePreprocessing();
+        Map<Integer, Long> tableProcessing = table.getTableProcess();
+        for(int i = 0;i < listNumberVertical.length;i++){
+            // estimate preprocessing
+            int numberVertical = listNumberVertical[i];
+            long curTime = (new Date()).getTime();
+            long preprocessTime = (new Date()).getTime() - curTime;
+            tablePreprocessing.put(numberVertical, preprocessTime);
+            // estimate processTime
+            List<Point> polygon = listPolygon.get(i);
+            curTime = (new Date()).getTime();
+            for(int j = 0;j < pointsTest.size();j++){
+                Point point = pointsTest.get(j);
+                Graham.isInConvex(polygon, point);
+            }
+            long timeProcess = (new Date()).getTime() - curTime;
+            tableProcessing.put(numberVertical, timeProcess);
+        }
+        return table;
     }
 }

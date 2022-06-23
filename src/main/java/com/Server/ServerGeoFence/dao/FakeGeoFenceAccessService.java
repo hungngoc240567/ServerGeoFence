@@ -54,7 +54,7 @@ public class FakeGeoFenceAccessService implements GeoFenceDao{
         if(db == null){
             db = this.parseListGeoFenceFromDB();
         }
-        System.out.println(db);
+//        System.out.println(db);
         return db;
     }
 
