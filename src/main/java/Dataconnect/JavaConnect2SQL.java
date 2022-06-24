@@ -162,15 +162,16 @@ public class JavaConnect2SQL {
     }
 
     public void insertVehicle_in_Geo (Vehicle vehicle) throws SQLException {
-//        String query = "INSERT INTO Vehicle_in_Geo(ID_Geo, ID_Vehicle, Time_in) VALUES (?,?,?)";
-//        PreparedStatement pst = conn.prepareStatement(query);
-//        List<UUID> listIdGeoFenceIn = vehicle.getListIdGeoFenceIn();
-//        for(int i = 0;i < listIdGeoFenceIn.size();i++){
-//            pst.setString(1, listIdGeoFenceIn.get(i).toString());
-//            pst.setString(2, vehicle.getId().toString());
-//            pst.setDouble(3, vehicle.getLastTimeSave());
-//            pst.execute();
-//        }
+        String query = "INSERT INTO Vehicle_in_Geo(ID_Geo, ID_Vehicle, Time_in) VALUES (?,?,?)";
+        PreparedStatement pst = conn.prepareStatement(query);
+        List<UUID> listIdGeoFenceIn = vehicle.getListIdGeoFenceIn();
+        for(int i = 0;i < listIdGeoFenceIn.size();i++){
+            pst.setString(1, listIdGeoFenceIn.get(i).toString());
+            pst.setString(2, vehicle.getId().toString());
+            pst.setDouble(3, vehicle.getLastTimeSave());
+            pst.execute();
+
+        }
     }
 
     public void updatePointFromId(String id_geo, String id_point, double latitude, double longtitude) throws SQLException {

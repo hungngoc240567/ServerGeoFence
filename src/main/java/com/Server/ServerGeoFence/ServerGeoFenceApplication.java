@@ -18,9 +18,9 @@ import java.util.List;
 public class ServerGeoFenceApplication {
 
 	public static void main(String[] args) {
-//		SpringApplication.run(ServerGeoFenceApplication.class, args);
-		GeoFencePerformanceTest tester = GeoFencePerformanceTest.getInstance();
-		tester.test();
+		SpringApplication.run(ServerGeoFenceApplication.class, args);
+//		GeoFencePerformanceTest tester = GeoFencePerformanceTest.getInstance();
+//		tester.test();
 	}
 }
 
