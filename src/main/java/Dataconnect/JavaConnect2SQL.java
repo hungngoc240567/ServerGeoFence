@@ -264,12 +264,20 @@ public class JavaConnect2SQL {
     public void updateVehiclePointToDB(Vehicle vehicle) throws SQLException {
         String query = "INSERT INTO Vehicle_in_Geo (Vehicle_ID, Geofence_ID, V_Date) VALUES (?,?,?)";
         PreparedStatement pst = conn.prepareStatement(query);
+        ResultSet rs = pst.executeQuery();
         List<UUID> listGeoFenceIn = vehicle.getListIdGeoFenceIn();
         for(int i = 0;i < listGeoFenceIn.size();i++){
-            pst.setString(1,vehicle.getId().toString());
-            pst.setString(2,listGeoFenceIn.get(i).toString());
-            pst.setLong(3,vehicle.getLastTimeSave());
-            pst.execute();
+        }
+    }
+
+    public void get_vehicle_at_time() throws SQLException {
+        //truyen tham so vao ? nhe
+        String query = "select distinct ID_Vehicle from Vehicle_in_Geo where ? < Time_in and ? > Time_in";
+        PreparedStatement pst = conn.prepareStatement(query);
+        ResultSet rs = pst.executeQuery();
+        //print result
+        while(rs.next()){
+            String ID_Vehicle = rs.getString("ID_Vehicle");
         }
     }
 
