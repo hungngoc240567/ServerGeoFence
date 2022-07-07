@@ -182,6 +182,7 @@ public class JavaConnect2SQL {
         pst.execute();
     }
 
+
     public List<UUID> getVehicleInGeoFence(UUID idGeo, long timeStart, long timeEnd) throws SQLException {
         String query = "select distinct ID_Vehicle from Vehicle_in_geo where ? <= Time_in and ? >= Time_in and ID_GEO = ?";
         Connection connection = this.getConnectionById(CONNECTION_TO_VEHICLE_RECORD_TABLE);
