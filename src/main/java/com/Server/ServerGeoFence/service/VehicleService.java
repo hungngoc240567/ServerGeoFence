@@ -39,7 +39,7 @@ public class VehicleService {
         this.geoFenceService = geoFenceService;
     }
 
-    public Optional<Vehicle> getVehicleById(UUID id){
+    public Vehicle getVehicleById(UUID id){
         return this.vehicleDao.getVehicleById(id);
     }
 
@@ -57,18 +57,11 @@ public class VehicleService {
 
     public List<UUID> updatePositionVehicleById(UUID id, Point point) {
         List<UUID> listEmptyId = new ArrayList<>();
-        Optional<Vehicle> vehicles = this.getVehicleById(id);
-        return vehicles.map(p -> {
-            int indexUpdatePosition = this.selectAllVehicle().indexOf(p);
-            if(indexUpdatePosition >= 0){
-                Vehicle vehicle = this.selectAllVehicle().get(indexUpdatePosition);
-                vehicle.setListIdGeoFenceIn(getGeoFenceService().getListIdGeoWithPointIn(point));
-                vehicle.setCurPoint(point);
-                vehicle.updateVehicleToDB();
-                return vehicle.getListIdGeoFenceIn();
-            }
-            System.out.println("Can not find vehicle with id" + id);
-            return listEmptyId;
-        }).orElse(listEmptyId);
+        Vehicle vehicle = this.getVehicleById(id);
+        if(vehicle == null) return listEmptyId;
+        vehicle.setListIdGeoFenceIn(getGeoFenceService().getListIdGeoWithPointIn(point));
+        vehicle.setCurPoint(point);
+        vehicle.updateVehicleToDB();
+        return vehicle.getListIdGeoFenceIn();
     }
 }

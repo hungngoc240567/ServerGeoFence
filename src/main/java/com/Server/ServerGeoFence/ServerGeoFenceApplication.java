@@ -13,11 +13,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @SpringBootApplication
 public class ServerGeoFenceApplication {
 
 	public static void main(String[] args) {
+		JavaConnect2SQL.createInstance();
 		SpringApplication.run(ServerGeoFenceApplication.class, args);
 //		GeoFencePerformanceTest tester = GeoFencePerformanceTest.getInstance();
 //		tester.test();

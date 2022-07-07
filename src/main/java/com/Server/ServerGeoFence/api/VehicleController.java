@@ -32,8 +32,8 @@ public class VehicleController {
     }
 
     @GetMapping(path = "{id}")
-    public Optional<Vehicle> getVehicleById(@PathVariable("id") UUID id){
-        return Optional.ofNullable(this.vehicleService.getVehicleById(id).orElse(null));
+    public Vehicle getVehicleById(@PathVariable("id") UUID id){
+        return this.vehicleService.getVehicleById(id);
     }
 
     @DeleteMapping(path = "{id}")

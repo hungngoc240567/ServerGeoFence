@@ -18,7 +18,7 @@ public interface VehicleDao {
 
     List<Vehicle> selectAllVehicle();
 
-    Optional<Vehicle> getVehicleById(UUID id);
+    Vehicle getVehicleById(UUID id);
 
     int deleteVehicleById(UUID id);
 

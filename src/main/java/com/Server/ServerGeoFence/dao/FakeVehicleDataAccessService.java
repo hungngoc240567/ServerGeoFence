@@ -6,23 +6,20 @@ import com.Server.ServerGeoFence.model.Vehicle;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 // this class need auto created by spring and role of this
 // is a repository (kho chua)
 
 @Repository("fakeVehicleDao")
 public class FakeVehicleDataAccessService implements VehicleDao{
 
-    private static List<Vehicle> db = null;
+    private static Map<UUID, Vehicle> db = null;
 
     @Override
     public UUID insertVehicle(UUID id, String type, Point point, List<UUID> listId, double vx, double vy) {
         Vehicle vehicle = new Vehicle(id, type, point, vx, vy);
         vehicle.setListIdGeoFenceIn(listId);
-        db.add(vehicle);
+        db.put(vehicle.getId(), vehicle);
         vehicle.saveVehicleToDB();
         return id;
     }
@@ -32,44 +29,47 @@ public class FakeVehicleDataAccessService implements VehicleDao{
         if(db == null){
             db = this.parseListVehicleFromDB();
         }
-        return db;
+        List<Vehicle> listVehicle = new ArrayList<>();
+        for (UUID id : db.keySet()){
+            listVehicle.add(db.get(id));
+        }
+        return listVehicle;
     }
 
-    public List<Vehicle> parseListVehicleFromDB(){
+    public Map<UUID, Vehicle> parseListVehicleFromDB(){
         JavaConnect2SQL javaConnect2SQL = JavaConnect2SQL.getInstance();
-        List<Vehicle> vehicles = new ArrayList<>();
+        Map<UUID, Vehicle> db = new HashMap<>();
         try {
-            vehicles = javaConnect2SQL.loadAllVehicle();
+            List<Vehicle> vehicles = javaConnect2SQL.loadAllVehicle();
+            for (int i = 0;i < vehicles.size();i++){
+                Vehicle vehicle = vehicles.get(i);
+                db.put(vehicle.getId(), vehicle);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return vehicles;
+        return db;
     }
 
     @Override
-    public Optional<Vehicle> getVehicleById(UUID id) {
-        return db.stream().filter(vehicle -> vehicle.getId().equals(id)).findFirst();
+    public Vehicle getVehicleById(UUID id) {
+        return db.get(id);
     }
 
     @Override
     public int deleteVehicleById(UUID id) {
-        Optional<Vehicle> vehicle = getVehicleById(id);
-        if(vehicle.isEmpty())
-            return 0;
-        db.remove(vehicle.get());
+        Vehicle vehicle = getVehicleById(id);
+        if(vehicle == null) return 0;
+        db.remove(vehicle.getId());
         return 1;
     }
 
     @Override
     public int updateVehicleById(UUID id, Vehicle vehicle) {
-        return this.getVehicleById(id).map(p -> {
-            int indexOfDelete = db.indexOf(p);
-            if(indexOfDelete >= 0){
-                Vehicle newVehicle = new Vehicle(id, vehicle.getType(), vehicle.getCurPoint(), vehicle.getVx(), vehicle.getVy());
-                db.set(indexOfDelete, newVehicle);
-                return 1;
-            }
-            return 0;
-        }).orElse(0);
+        Vehicle oldVehicle = this.getVehicleById(id);
+        if(oldVehicle == null) return 0;
+        Vehicle newVehicle = new Vehicle(id, vehicle.getType(), vehicle.getCurPoint(), vehicle.getVx(), vehicle.getVy());
+        db.put(id, newVehicle);
+        return 1;
     }
 }

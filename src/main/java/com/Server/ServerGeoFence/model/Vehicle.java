@@ -76,6 +76,7 @@ public class Vehicle {
     public void updateVehicleToDB(){
         long curTime = (new Date()).getTime();
         if (curTime - lastTimeSave >= 5000){
+            lastTimeSave = curTime;
             JavaConnect2SQL javaConnect2SQL = JavaConnect2SQL.getInstance();
             try {
                 javaConnect2SQL.insertVehicle_in_Geo(this);
